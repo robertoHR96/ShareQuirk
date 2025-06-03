@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="quantum,circuit,simulator,quirk">
+    <meta name="description"
+        content="Quirk is an open-source drag-and-drop quantum circuit simulator for exploring and understanding small quantum circuits.">
+    <title>Quirk: Quantum Circuit Simulator</title>
+    <link rel="shortcut icon"
+        href="data:image/png;base64,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">
+    <style>
+        button {
+            background-color: #049fff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            row-gap: 10px;
+            margin-left: 5px;
+        }
+        #qcraft{
+            background-color: #C53030;
+        }
+         #clear-circuit-button, #clear-all-button{
+            background-color: #DC2626;
+        }
+        #enviar-url, #export-button{
+            background-color: #38A169;
+        }
+
+        button div {
+            margin-left: 10px;
+        }
+
+        .tag-myCustomColor .gate-frame {
+            background-color: #8e44ad;
+            /* morado */
+            color: white;
+        }
+    </style>
+
+    <!-- Whatever is between these start/end analytic tags is stripped by the 'downloading offline copy' code. -->
+    <!-- Start Analytics -->
+    <!-- End Analytics -->
+</head>
+
+<body style="margin: 0">
+
+    <!-- Primary content -->
+    <div id="inspectorDiv" style="display: none">
+        <!-- Buttons -->
+        <div style="margin: 5px; display: flex; flex-wrap: wrap;">
+            <button id="menu-button" style="min-width: 50px; min-height: 30px; display:none; ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                </svg>
+                <div>
+                    Menu
+                </div>
+            </button>
+            <!-- Botón para ir a Quirk Advance o editar circuito -->
+            <button id="enviar-url" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
+                    viewBox="0 0 16 16">
+                    <path d="M11 2H9v3h2z" />
+                    <path
+                        d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                </svg>
+                <div id="enviar-url-button">
+
+                </div>
+            </button>
+            <button id="export-button" style="min-width: 50px; min-height: 30px; ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                </svg>
+                <div>
+                    Export
+                </div>
+            </button>
+            <div style="min-width: 20px;"></div>
+            <button id="clear-circuit-button" style="min-width: 50px; min-height: 30px; display:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <div>
+                    Clear Circuit
+                </div>
+            </button>
+            <!-- Antes era clear ALL y tenia este icono: 
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-x-square" viewBox="0 0 16 16">
+                    <path
+                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                </svg>
+            
+            -->
+            <button id="clear-all-button" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                </svg>
+                <div>
+                    Clear Circuit
+                </div>
+            </button>
+            <div style="min-width: 20px;"></div>
+            <button id="undo-button" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+                <div>
+                    Undo
+                </div>
+            </button>
+            <button id="redo-button" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+                </svg>
+                <div>
+                    Redo
+                </div>
+            </button>
+            <div style="min-width: 20px;"></div>
+            <button id="gate-forge-button" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hammer"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5 5 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334" />
+                </svg>
+                <div>
+                    Make Gate
+                </div>
+            </button>
+
+            <div style="min-width: 20px;"></div>
+            <button id="shareCircuit" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-share-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
+                </svg>
+                <div>
+                    Share code
+                </div>
+            </button>
+            <button id="enterCircuit" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+                <div>
+                    Enter code
+                </div>
+            </button>
+            <div style="min-width: 20px;"></div>
+            <button id="qcraft" style="min-width: 50px; min-height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+                <div>
+                    Go to QCraft
+                </div>
+            </button>
+
+        </div>
+
+        <!-- Modal: Enter Circuit -->
+        <div id="enterCircuitModal" style="
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, Helvetica Neue;
+        ">
+            <div style="
+              background-color: #ffffff;
+              padding: 30px 25px;
+              border-radius: 12px;
+              width: 90%;
+              max-width: 360px;
+              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+              display: flex;
+              flex-direction: column;
+              gap: 15px;
+          ">
+                <h3 style="margin: 0; font-size: 20px; text-align: center; color: #333;">
+                    Enter code circuit
+                </h3>
+                <input type="text" id="codCircuitInput" placeholder="e.g. 123ABC" style="
+                padding: 10px 12px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                outline: none;
+                transition: border-color 0.2s ease;
+              " onfocus="this.style.borderColor='#007bff'" onblur="this.style.borderColor='#ccc'" />
+                <button id="submitCircuitButton" style="
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+              " onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">
+                    Enviar
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal: Share Circuit -->
+        <div id="shareCircuitModal" style="
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, Helvetica Neue;
+        ">
+            <div style="
+              background-color: #ffffff;
+              padding: 30px 25px;
+              border-radius: 12px;
+              width: 90%;
+              max-width: 360px;
+              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+              display: flex;
+              flex-direction: column;
+              gap: 15px;
+          ">
+                <h3 id="codeShareCircuit" style="margin: 0; font-size: 20px; text-align: center; color: #333;">
+                    Code circuit
+                </h3>
+                <button id="submitShareCircuitButton" style="
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+              " onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">
+                    Cerrar
+                </button>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <!-- Circuit drawing area -->
+    <div id="canvasDiv" style="width: 100%; touch-action: manipulation; tab-index: 0; position: relative; ">
+        <canvas id="drawCanvas"></canvas>
+    </div>
+
+    <div>
+        <span style="color:#BBB">Version 0.1 Share</span>
+    </div>
+
+    <!-- INCLUDE EXPORT PART -->
+
+    <!-- INCLUDE FORGE PART -->
+
+    <!-- INCLUDE MENU PART -->
+
+    <!-- INCLUDE ERROR PART -->
+
+    <!-- Javascript detection -->
+    <div id="noscript-div" class="noscript-warning" style="
+                        animation-duration: 3.0s;
+                   -moz-animation-duration: 3.0s;
+                -webkit-animation-duration: 3.0s;
+                     -o-animation-duration: 3.0s;
+                        animation-name: delay-showing-before-hide-script-can-run-but-then-jump-in;
+                   -moz-animation-name: delay-showing-before-hide-script-can-run-but-then-jump-in;
+                -webkit-animation-name: delay-showing-before-hide-script-can-run-but-then-jump-in;
+                     -o-animation-name: delay-showing-before-hide-script-can-run-but-then-jump-in;
+                      background-color: white;
+                                border: 1px solid red;
+                               padding: 10px;
+                               display:none;">
+        <style scoped>
+            @keyframes delay-showing-before-hide-script-can-run-but-then-jump-in {
+                from {
+                    opacity: 0;
+                }
+
+                95% {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @-webkit-keyframes delay-showing-before-hide-script-can-run-but-then-jump-in {
+                from {
+                    opacity: 0;
+                }
+
+                95% {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @-moz-keyframes delay-showing-before-hide-script-can-run-but-then-jump-in {
+                from {
+                    opacity: 0;
+                }
+
+                95% {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @-o-keyframes delay-showing-before-hide-script-can-run-but-then-jump-in {
+                from {
+                    opacity: 0;
+                }
+
+                95% {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .noscript-warning {
+                color: red;
+                font-size: 24px;
+                position: absolute;
+                top: 25%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        </style>
+        You appear to have JavaScript blocked. And Quirk is made out of JavaScript... :(
+    </div>
+    <script>
+        // Variables globales para almacenar la URL antes de la cadena y la cadena del circuito
+        window.urlAntesDeCadena;
+        window.cadenaCircuito;
+
+        // Función para verificar si la URL contiene la palabra "cadena" en el fragmento
+        function urlContieneCadena() {
+            return window.location.href.includes("&cadena=");
+        }
+
+        // Función para obtener el valor del parámetro "cadena" del fragmento de la URL
+        function obtenerValorParametroCadena() {
+            const hashIndex = window.location.href.indexOf("&cadena=");
+            if (hashIndex !== -1) {
+                const hash = window.location.href.slice(hashIndex + 1);
+                const urlParams = new URLSearchParams(hash);
+                return urlParams.get("cadena");
+            }
+            return cadenaCircuito;
+        }
+
+        // Función para obtener todo lo que está antes de "&cadena=" en la URL
+        function obtenerURLAntesDeCadena() {
+            const urlCompleta = window.location.href;
+            const cadenaBuscada = "&cadena=";
+            const index = urlCompleta.indexOf(cadenaBuscada);
+            if (index !== -1) {
+                return urlAntesDeCadena = urlCompleta.substring(0, index);
+            }
+            return urlAntesDeCadena;
+        }
+
+
+        // Función para obtener la URL antes de la cadena y la cadena del circuito
+        function obtenerURLYCadena() {
+            // Obtener la URL completa
+            const urlCompleta = window.location.href;
+
+            if (urlCompleta.endsWith("quirk.html") || urlCompleta.endsWith(":[]}")) {
+                alert("Please, add a circuit to translate it to QCraft.");
+                return null;
+            }
+
+
+            // Establecer la URL antes de la cadena como la URL completa predeterminada
+            urlAntesDeCadena = urlCompleta;
+
+            // Obtener la cadena del circuito
+            const hashIndex = urlCompleta.indexOf("&cadena=");
+            if (hashIndex !== -1) {
+                const hash = urlCompleta.slice(0, hashIndex); // Extraer la parte de la URL antes de "&cadena="
+                const urlParams = new URLSearchParams(hash);
+                cadenaCircuito = urlParams.get("cadena");
+                console.log("HASHHHH", hash);
+            }
+
+            // Almacenar la URL antes de la cadena
+            return urlAntesDeCadena = hashIndex !== -1 ? urlCompleta.slice(0, hashIndex) : urlCompleta;
+
+        }
+
+        // Seleccionar el botón por su id
+        const enviarUrlButton = document.getElementById("enviar-url");
+
+        // Agregar un event listener para el evento click
+        enviarUrlButton.addEventListener("click", function () {
+            // Verificar si el texto del botón es "Go to Quirk Advance"
+            if (document.getElementById('enviar-url-button').textContent === "Guardar como nuevo") {
+
+                // Si lo es, enviar el mensaje postMessage
+                if (obtenerURLYCadena() === null) {
+                    return;
+                }
+                else {
+                    obtenerURLYCadena(); // Obtener la URL antes de la cadena y la cadena del circuito
+                    window.parent.postMessage({ type: 'get url' }, '*');
+                }
+            } else if (document.getElementById('enviar-url-button').textContent === "Guardar cambios") {
+
+                // Si el texto del botón es "Editar Circuito", enviar otro mensaje postMessage
+                cadenaCircuito = obtenerValorParametroCadena();
+                console.log("Cadena del circuito:", cadenaCircuito);
+                urlAntesDeCadena = obtenerURLAntesDeCadena();
+                console.log("URL antes de la cadena:", urlAntesDeCadena);
+                window.parent.postMessage({ type: 'edit circuit' }, '*');
+                console.log("La url es:", urlAntesDeCadena);
+                console.log("La cadena es:", cadenaCircuito);
+                console.log("Editar Circuito");
+            }
+        });
+
+        // Cambiar el texto del botón dependiendo de si la URL contiene "&cadena="
+        if (urlContieneCadena()) {
+            document.getElementById('enviar-url-button').textContent = 'Guardar cambios';
+            // Si la URL contiene "&cadena=", obtén y utiliza el valor de la cadena
+            cadenaCircuito = obtenerValorParametroCadena();
+            console.log("Cadena del circuito:", cadenaCircuito);
+            urlAntesDeCadena = obtenerURLAntesDeCadena();
+            console.log("URL antes de la cadena:", urlAntesDeCadena);
+            // Aquí puedes hacer lo que necesites con la cadena del circuito
+        } else {
+            document.getElementById('enviar-url-button').textContent = 'Guardar como nuevo';
+        }
+    </script>
+    <!-- Script para modales -->
+    <script>
+
+        // Share Circuit modal
+        const shareCircuitBtn = document.getElementById("submitShareCircuitButton");
+        const shareCircuitModal = document.getElementById("shareCircuitModal");
+
+        shareCircuitBtn.addEventListener("click", () => {
+            shareCircuitModal.style.display = "none";
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === shareCircuitModal) {
+                shareCircuitModal.style.display = "none";
+            }
+        });
+
+        // Enter Circuit modal
+        const enterCircuitBtn = document.getElementById("enterCircuit");
+        const enterCircuitModal = document.getElementById("enterCircuitModal");
+
+        enterCircuitBtn.addEventListener("click", () => {
+            enterCircuitModal.style.display = "flex";
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === enterCircuitModal) {
+                enterCircuitModal.style.display = "none";
+            }
+        });
+    </script>
+
+
+
+    <script>
+        // Seleccionar el botón por su id
+        const qcraftButton = document.getElementById("qcraft");
+
+        // Agregar un event listener para el evento click
+        qcraftButton.addEventListener("click", function () {
+            // Verificar si el texto del botón es "Go to QCraft"
+            if (qcraftButton.innerText === "Go to QCraft") {
+                // Si lo es, redirigir a QCRAFT
+                window.location.href = "http://localhost:3000/";
+            } else {
+                // Si no, hacer otra cosa o dejar vacío
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('noscript-div').style.display = 'none';
+    </script>
+
+    <!-- <script>
+    // Seleccionar el botón por su id
+    const enviarUrlButton = document.getElementById("enviar-url");
+
+    // Agregar un event listener para el evento click
+    enviarUrlButton.addEventListener("click", function() {
+        // Verificar si el texto del botón es "Go to Quirk Advance"
+        if (enviarUrlButton.innerText === "Translate circuit") {
+            // Si lo es, enviar el mensaje postMessage
+            window.parent.postMessage({ type: 'get url' }, '*');
+        } else {
+            // Si no, hacer otra cosa o dejar vacío
+        }
+    });
+</script> -->
+
+    <script>
+        document.getElementById('noscript-div').style.display = 'block';
+        //noinspection InnerHTMLJS
+        document.QUIRK_QUINE_ALL_HTML_ORIGINAL = '<!' + 'DOCTYPE html>\n<' + 'html>\n    ' +
+            document.documentElement.innerHTML + '\n<' + '/html>';
+        document.getElementById('noscript-div').style.display = 'none';
+        //DEFAULT_CIRCUIT_START
+        document.DEFAULT_CIRCUIT = undefined;
+        //DEFAULT_CIRCUIT_END
+
+        // UN-MINIFIED SOURCE IS AVAILABLE FROM github.com/Strilanc/Quirk
+
+        <!-- INCLUDE SOURCE PART -->
+
+    </script>
+</body>
+
+</html>
