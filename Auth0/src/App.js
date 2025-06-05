@@ -14,9 +14,9 @@ import Resultados from './views/Resultados';
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 import { UserEmailProvider } from './components/UserEmailContext';
-
 // styles
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // fontawesome
 import initFontAwesome from "./utils/initFontAwesome";
