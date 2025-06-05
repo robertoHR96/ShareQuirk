@@ -193,27 +193,11 @@ redrawThrottle = new CooldownThrottle(
 window.addEventListener("resize", () => redrawThrottle.trigger(), false);
 displayed.observable().subscribe(() => redrawThrottle.trigger());
 
-/** @type {undefined|!string} */
-let clickDownGateButtonKey = undefined;
-canvasDiv.addEventListener("click", (ev) => {
-  let pt = eventPosRelativeTo(ev, canvasDiv);
-  let curInspector = displayed.get();
-  if (curInspector.tryGetHandOverButtonKey() !== clickDownGateButtonKey) {
-    return;
-  }
-  let clicked = syncArea(
-    curInspector.withHand(curInspector.hand.withPos(pt))
-  ).tryClick();
-  if (clicked !== undefined) {
-    revision.commit(clicked.afterTidyingUp().snapshot());
-  }
-});
 
-/********/
-/********/
-/********/
-
-
+/*******
+ * 
+ 
+/****************/
 const sendActualCircuit = () => {
   // Obtiene el último estado del historial como objeto
   let circuitoNew = JSON.parse(
@@ -312,8 +296,8 @@ const WebSocketManager = {
 
   // Entra a un circuito existente con código
   enterCircuit(codigo) {
-    this.cod = codigo
-    console.log(msg)
+    this.cod = codigo;
+    console.log(msg);
     this.socket = new WebSocket("ws://localhost:8080/ws");
 
     const msg = {
@@ -419,7 +403,6 @@ clearButton.addEventListener("click", () => {
   WebSocketManager.clear();
 });
 
-
 // Al hacer clic en el botón de compartir circuito
 const sharetButton = document.getElementById("shareCircuit");
 sharetButton.addEventListener("click", () => {
@@ -441,6 +424,51 @@ enterCircuit.addEventListener("click", () => {
   // Oculta el modal
   enterCircuitModal.style.display = "none";
 });
+
+ /***/
+
+
+/** @type {undefined|!string} */
+let clickDownGateButtonKey = undefined;
+canvasDiv.addEventListener("click", (ev) => {
+  let pt = eventPosRelativeTo(ev, canvasDiv);
+  let curInspector = displayed.get();
+  if (curInspector.tryGetHandOverButtonKey() !== clickDownGateButtonKey) {
+    return;
+  }
+  let clicked = syncArea(
+    curInspector.withHand(curInspector.hand.withPos(pt))
+  ).tryClick();
+  if (clicked !== undefined) {
+    revision.commit(clicked.afterTidyingUp().snapshot());
+    // 
+    // aqui se llama para enviar el cambio en lso qubits iniciales
+    console.log(JSON.parse(revision.history[revision.history.length - 1]).init);
+    if (revision.history.length > 1) {
+      for (
+        let i = 0;
+        i <
+        JSON.parse(revision.history[revision.history.length - 1]).init.length;
+        i++
+      ) {
+        if (
+          JSON.parse(revision.history[revision.history.length - 1]).init[i] !=
+          JSON.parse(revision.history[revision.history.length - 2]).init[i]
+        ) {
+          // buscar los cambios 
+          WebSocketManager.send({
+            
+          })
+        }
+      }
+    }
+  }
+});
+
+/********/
+/********/
+/********/
+
 
 /********/
 /********/
@@ -540,7 +568,7 @@ watchDrags(
       //listaEventos.push(updateCircuit);
     }
     displayed.set(newInspector);
-   // ev.preventDefault();
+    // ev.preventDefault();
   },
   /**
    * Drop cuando añadimos un elemento
