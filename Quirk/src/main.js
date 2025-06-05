@@ -56,6 +56,9 @@ import { GateColumn } from "./circuit/GateColumn.js";
 import { Point } from "./math/Point.js";
 
 import { compareCircuit } from "./comparadorCircuitos.js";
+import { comparateInti } from "./comparadorInti.js";
+
+
 
 initSerializer(
   GatePainting.LABEL_DRAWER,
@@ -193,26 +196,13 @@ redrawThrottle = new CooldownThrottle(
 window.addEventListener("resize", () => redrawThrottle.trigger(), false);
 displayed.observable().subscribe(() => redrawThrottle.trigger());
 
-/** @type {undefined|!string} */
-let clickDownGateButtonKey = undefined;
-canvasDiv.addEventListener("click", (ev) => {
-  let pt = eventPosRelativeTo(ev, canvasDiv);
-  let curInspector = displayed.get();
-  if (curInspector.tryGetHandOverButtonKey() !== clickDownGateButtonKey) {
-    return;
-  }
-  let clicked = syncArea(
-    curInspector.withHand(curInspector.hand.withPos(pt))
-  ).tryClick();
-  if (clicked !== undefined) {
-    revision.commit(clicked.afterTidyingUp().snapshot());
-  }
-});
+
+
 
 /********/
 /********/
 /********/
-
+/**************** */
 const sendActualCircuit = () => {
   // Obtiene el último estado del historial como objeto
   let circuitoNew = JSON.parse(
@@ -425,6 +415,8 @@ sharetButton.addEventListener("click", () => {
   const shareCircuitModal = document.getElementById("shareCircuitModal");
   shareCircuitModal.style.display = "flex";
   // Se conecta y crea circuito
+  const codeShareCircuit = document.getElementById("codeShareCircuit");
+  codeShareCircuit.textContent = "Code circuit: " + WebSocketManager.cod;
   WebSocketManager.connect();
 });
 
@@ -444,6 +436,49 @@ enterCircuit.addEventListener("click", () => {
 /********/
 /********/
 /********/
+
+/** @type {undefined|!string} */
+let clickDownGateButtonKey = undefined;
+canvasDiv.addEventListener("click", (ev) => {
+  let pt = eventPosRelativeTo(ev, canvasDiv);
+  let curInspector = displayed.get();
+  if (curInspector.tryGetHandOverButtonKey() !== clickDownGateButtonKey) {
+    return;
+  }
+  let clicked = syncArea(
+    curInspector.withHand(curInspector.hand.withPos(pt))
+  ).tryClick();
+  if (clicked !== undefined) {
+    revision.commit(clicked.afterTidyingUp().snapshot());
+
+
+    let intiN;
+    let intiO;
+    const rhNew = JSON.parse(
+      revision.history[revision.history.length - 1]
+    );
+    const rhOld = JSON.parse(
+      revision.history[revision.history.length - 2]
+    );
+    try {
+      intiN = rhNew.init;
+    } catch (e) {
+      intiN = undefined;
+    }
+    try {
+      intiO = rhOld.init;
+      
+    } catch (e) {
+      intiO = undefined;
+    }
+    let intiComparado = comparateInti(intiN, intiO);
+    WebSocketManager.send({
+      action: "sendInit",
+      updateInit: intiComparado,
+    });
+  }
+});
+
 watchDrags(
   canvasDiv,
   /**
