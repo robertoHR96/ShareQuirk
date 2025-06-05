@@ -56,6 +56,7 @@ import { GateColumn } from "./circuit/GateColumn.js";
 import { Point } from "./math/Point.js";
 
 import { compareCircuit } from "./comparadorCircuitos.js";
+import { init } from "grunt";
 
 initSerializer(
   GatePainting.LABEL_DRAWER,
@@ -439,23 +440,83 @@ canvasDiv.addEventListener("click", (ev) => {
   ).tryClick();
   if (clicked !== undefined) {
     revision.commit(clicked.afterTidyingUp().snapshot());
-    //
-    // aqui se llama para enviar el cambio en lso qubits iniciales
-    console.log(JSON.parse(revision.history[revision.history.length - 1]).init);
-    if (revision.history.length > 1) {
-      for (
-        let i = 0;
-        i <
-        JSON.parse(revision.history[revision.history.length - 1]).init.length;
-        i++
-      ) {
-        
+    // si hay mas de una revision
+      console.log("llega")
+    if ( revision.history.length > 1) {
+      // cogemos los dos init
+      /*
+      let initNew, initOld;
+
+      try {
+        const parsedNew = JSON.parse(
+          revision.history[revision.history.length - 1]
+        );
+        initNew = parsedNew.init;
+      } catch (e) {
+        initNew = undefined;
       }
-      
+
+      try {
+        const parsedOld = JSON.parse(
+          revision.history[revision.history.length - 2]
+        );
+        initOld = parsedOld.init;
+      } catch (e) {
+        initOld = undefined;
+      }
+      if (initOld === undefined) {
+        // se envia uno nuevo
+        WebSocketManager.send({
+          action: "sendInit",
+          updateCircuit: {
+            x: initNew.length - 1,
+            element: initNew[initNew.length - 1],
+            mod: "add",
+          },
+        });
+      } else {
+        // si el nuevo es mas largo que el viejo, enviamos el ultimo init como add
+        if (initNew.length > initOld.length) {
+          WebSocketManager.send({
+            action: "sendInit",
+            updateCircuit: {
+              x: initNew.length - 1,
+              element: initNew[initNew.length - 1],
+              mod: "add",
+            }
+          })
+        } if (initNew.length < initOld.length) {
+          // si el nuevo es mas corto que el viejo, enviamos el ultimo init como delete
+          WebSocketManager.send({
+            action: "sendInit",
+            updateCircuit: {
+              x: initOld.length - 1,
+              element: initOld[initOld.length - 1],
+              mod: "delete",
+            }
+          })
+        }
+        // sino buscamos la diferencia
+        for (
+          let i = 0;
+          i <
+          initNew.length;
+          i++
+        ) {
+          if (initNew[i] !== initOld[i]) {
+            WebSocketManager.send({
+              action: "sendInit",
+              updateCircuit: {
+                x: i,
+                element: initNew[i],
+                mod: "update",
+              },
+            });
+          }
+        }
+      }
+    */
     }
-    
-        // buscar los cambios
-      //  WebSocketManager.send({});
   }
 });
 
