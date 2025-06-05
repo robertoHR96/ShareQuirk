@@ -193,7 +193,6 @@ redrawThrottle = new CooldownThrottle(
 window.addEventListener("resize", () => redrawThrottle.trigger(), false);
 displayed.observable().subscribe(() => redrawThrottle.trigger());
 
-
 /*******
  * 
  
@@ -425,8 +424,7 @@ enterCircuit.addEventListener("click", () => {
   enterCircuitModal.style.display = "none";
 });
 
- /***/
-
+/***/
 
 /** @type {undefined|!string} */
 let clickDownGateButtonKey = undefined;
@@ -441,7 +439,7 @@ canvasDiv.addEventListener("click", (ev) => {
   ).tryClick();
   if (clicked !== undefined) {
     revision.commit(clicked.afterTidyingUp().snapshot());
-    // 
+    //
     // aqui se llama para enviar el cambio en lso qubits iniciales
     console.log(JSON.parse(revision.history[revision.history.length - 1]).init);
     if (revision.history.length > 1) {
@@ -451,24 +449,19 @@ canvasDiv.addEventListener("click", (ev) => {
         JSON.parse(revision.history[revision.history.length - 1]).init.length;
         i++
       ) {
-        if (
-          JSON.parse(revision.history[revision.history.length - 1]).init[i] !=
-          JSON.parse(revision.history[revision.history.length - 2]).init[i]
-        ) {
-          // buscar los cambios 
-          WebSocketManager.send({
-            
-          })
-        }
+        
       }
+      
     }
+    
+        // buscar los cambios
+      //  WebSocketManager.send({});
   }
 });
 
 /********/
 /********/
 /********/
-
 
 /********/
 /********/

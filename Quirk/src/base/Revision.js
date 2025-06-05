@@ -134,7 +134,6 @@ class Revision {
      * @returns {void}
      */
     commit(newCheckpoint) {
-        console.log("hola")
         if (newCheckpoint === this.history[this.index]) {
             this.cancelCommitBeingWorkedOn();
             return;

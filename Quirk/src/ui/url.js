@@ -137,7 +137,6 @@ window.addEventListener('message', function(event) {
                 console.log("Enviando la cadena global con la URL actual de Quirk a un nuevo endpoint en Quirk");
                 console.log("URL actual de Quirk:", urlQuirk); // Agregar este mensaje de registro
                 console.log("Cadena de circuito:", cadenaCircuito); // Agregar este mensaje de registro
-                console.log("HOLAAAA");
                 enviarURLADjangoEditada(urlQuirk, cadenaCircuito);            
         }
     }    
