@@ -122,9 +122,20 @@ function initForge(revision, obsIsAnyOverlayShowing) {
      * @param {undefined|!CircuitDefinition=undefined} circuitDef
      */
     function createCustomGateAndClose(gate, circuitDef=undefined) {
-        let c = circuitDef || fromJsonText_CircuitDefinition(latestInspectorText);
-        revision.commit(JSON.stringify(Serializer.toJson(c.withCustomGate(gate)), null, 0));
-        forgeIsVisible.set(false);
+      let c = circuitDef || fromJsonText_CircuitDefinition(latestInspectorText);
+      revision.commit(
+        JSON.stringify(Serializer.toJson(c.withCustomGate(gate)), null, 0)
+      );
+      forgeIsVisible.set(false);
+
+      // ...dentro de createCustomGateAndClose o después de crear la puerta...
+      window.dispatchEvent(
+        new CustomEvent("customGateCreated", {
+          detail: {
+            gate: gate.serializedId
+          },
+        })
+      );
     }
 
     (() => {
