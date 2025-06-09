@@ -58,8 +58,6 @@ import { Point } from "./math/Point.js";
 import { compareCircuit } from "./comparadorCircuitos.js";
 import { comparateInti } from "./comparadorInti.js";
 
-
-
 initSerializer(
   GatePainting.LABEL_DRAWER,
   GatePainting.MATRIX_DRAWER,
@@ -196,11 +194,9 @@ redrawThrottle = new CooldownThrottle(
 window.addEventListener("resize", () => redrawThrottle.trigger(), false);
 displayed.observable().subscribe(() => redrawThrottle.trigger());
 
-
-
-
 /********/
 /********/
+
 /********/
 /**************** */
 const sendActualCircuit = () => {
@@ -218,7 +214,6 @@ const sendActualCircuit = () => {
     for (let e = 0; e < circuitoNew[i].length; e++) {
       // Si la celda no es "1", envía la celda como parte del circuito
       if (circuitoNew[i][e] != "1") {
-      console.log("enviarTodo", circuitoNew[i][e]);
         WebSocketManager.send({
           action: "sendCircuit",
           updateCircuit: {
@@ -236,25 +231,60 @@ const sendActualCircuit = () => {
   }
 };
 const sendAllCustomGates = () => {
-  /*
   // Obtiene el último estado del historial como objeto
   try {
-  const data = JSON.parse(revision.history.at(-1)).gates;
-  // Recorre todas las puertas (gates) y las envía
-  data.gates.forEach((gate) => {
-    WebSocketManager.send({
-      action: "sendGate",
-      gate: gate,
-      cod: WebSocketManager.cod,
-    });
-  });
-  }catch (error) {
+    let gates = JSON.parse(revision.history[revision.history.length - 1]);
+    try {
+      gates = gates.gates;
+    } catch (error) {
+      gates = undefined;
+      console.error("Error al enviar las puertas personalizadas:", error);
+    }
+    if (gates == undefined || gates.length == 0) {
+      console.error(
+        "Error al enviar las puertas personalizadas:",
+        "no hay puertas"
+      );
+      return null;
+    }
+    for (let i = 0; i < gates.length; i++) {
+      console.log("Enviando puerta personalizada:", gates[i]);
+      WebSocketManager.send({
+        action: "sendGate",
+        gate: gates[i],
+        cod: WebSocketManager.cod,
+      });
+    }
+    // Recorre todas las puertas (gates) y las envía
+  } catch (error) {
     console.error("Error al enviar las puertas personalizadas:", error);
-  // Manejo de error, por ejemplo, si no hay puertas personalizadas
-  console.warn("No hay puertas personalizadas para enviar.");
+    // Manejo de error, por ejemplo, si no hay puertas personalizadas
+    console.warn("No hay puertas personalizadas para enviar.");
   }
-  */
 };
+
+const sendAllInits = () => {
+  const rhNew = JSON.parse(revision.history[revision.history.length - 1]);
+  try {
+    intiN = rhNew.init;
+  } catch (e) {
+    intiN = undefined;
+  }
+  if (intiN == undefined) {
+    return null;
+  }
+  for (let i = 0; i < intiN.length; i++) {
+    WebSocketManager.send({
+      action: "sendInit",
+      updateInit: {
+        x: i,
+        element: intiN[i],
+        mod: "add",
+      },
+    });
+  }
+};
+
 const WebSocketManager = {
   socket: null, // Instancia del WebSocket
   cod: null, // Código del circuito (ID)
@@ -275,9 +305,7 @@ const WebSocketManager = {
     if (this.cod == null) {
       this.socket = new WebSocket("ws://localhost:8080/ws");
 
-      this.socket.onopen = () => {
-        
-      };
+      this.socket.onopen = () => {};
 
       this.socket.onmessage = (event) => {
         try {
@@ -290,8 +318,9 @@ const WebSocketManager = {
             // Si se creó el circuito, guarda código, muestra y envía datos
             if (data.action === "createCircuit") {
               //document.getElementById("codeShareCircuit").textContent =
+              sendAllCustomGates();
+              sendAllInits();
               sendActualCircuit(); // Envía el estado actual del circuito
-                sendAllCustomGates();
             }
           }
         } catch (error) {
@@ -341,8 +370,9 @@ const WebSocketManager = {
           }
 
           if (data.action === "createCircuit") {
-            sendActualCircuit(); // Envía el estado actual del circuito
+            sendAllInits();
             sendAllCustomGates();
+            sendActualCircuit(); // Envía el estado actual del circuito
           }
         }
       } catch (error) {
@@ -441,21 +471,18 @@ enterCircuit.addEventListener("click", () => {
 });
 // para crear el e
 window.addEventListener("customGateCreated", (event) => {
-  const id = event.detail.gate
+  const id = event.detail.gate;
 
-  const data = JSON.parse(
-    revision.history.at(-1)
-  );
+  const data = JSON.parse(revision.history.at(-1));
 
   // Buscar la puerta (gate) con el ID deseado
-  const gateNew = data.gates.find(g => g.id === id);
+  const gateNew = data.gates.find((g) => g.id === id);
 
   WebSocketManager.send({
     action: "sendGate",
     gate: gateNew,
     cod: WebSocketManager.cod,
   });
-
 });
 window.addEventListener("beforeunload", function (e) {
   // Tu función o lógica aquí
@@ -484,15 +511,10 @@ canvasDiv.addEventListener("click", (ev) => {
   if (clicked !== undefined) {
     revision.commit(clicked.afterTidyingUp().snapshot());
 
-
     let intiN;
     let intiO;
-    const rhNew = JSON.parse(
-      revision.history[revision.history.length - 1]
-    );
-    const rhOld = JSON.parse(
-      revision.history[revision.history.length - 2]
-    );
+    const rhNew = JSON.parse(revision.history[revision.history.length - 1]);
+    const rhOld = JSON.parse(revision.history[revision.history.length - 2]);
     try {
       intiN = rhNew.init;
     } catch (e) {
@@ -500,7 +522,6 @@ canvasDiv.addEventListener("click", (ev) => {
     }
     try {
       intiO = rhOld.init;
-      
     } catch (e) {
       intiO = undefined;
     }
@@ -609,7 +630,7 @@ watchDrags(
     displayed.set(newInspector);
     // ev.preventDefault();
   },
-  
+
   /**
    * Drop cuando añadimos un elemento
    * @param {undefined|!Point} pt
