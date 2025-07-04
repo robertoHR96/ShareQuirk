@@ -300,7 +300,7 @@ function enviarURLADjango(urlQuirk) {
 
 function enviarIDAReact(cadena) {
     // Redirigir a la aplicación de React con la cadena concatenada
-    window.location.href = `http://localhost:3000/receptor-datos?id=${cadena}`;
+    window.location.href = `http://localhost:3000/receptor-datos?id=${cadena}&goToMisCircutios=true`;
 }
 
 

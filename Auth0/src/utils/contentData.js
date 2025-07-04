@@ -1,28 +1,28 @@
 const contentData = [
-  {
-    title: "Visualizar ejecucición de circuitos",
-    link: "http://localhost:3000/mis-circuitos",
-    description:
-      "QCraft permite la visualización de la ejecución de circuitos cúanticos tanto para AWS como para IBM, en la que cada una tiene un comportamiento diferente."
-  },
-  {
-    title: "Analizar la ejecución de circuitos con gráficas",
-    link: "http://localhost:3000/resultados",
-    description:
-      "La ejecución de los circuitos en diferentes máquinas permite la visualización de los resultados obtenidos mediante gráficas para observar las estadísticas."
-  },
-  {
-    title: "Ejecución de circuitos en máquinas de AWS e IBM",
-    link: "http://localhost:3000/profile",
-    description:
-      "Gracias a nuestra plataforma, es posible la ejecución en distintas máquinas actuales tanto de IBM como de AWS, aunque también permite realizarla localmente para mayor rapidez, aunque menos precisión."
-  },
-  {
-    title: "Editar circuitos en tiempo real con ayuda de Quirk",
-    link: "http://localhost:3000/mis-circuitos",
-    description:
-      "Con ayuda de la cooperación de QCraft con Quirk, permitimos realizar los cambios que se deseen en un circuito ya guardado."
-  }
+    {
+      title: "Visualize Circuit Execution",
+      link: "http://localhost:3000/mis-circuitos",
+      description:
+        "QCraft allows the visualization of quantum circuit execution for both AWS and IBM, each with its own distinct behavior.",
+    },
+    {
+      title: "Analyze Circuit Execution with Graphs",
+      link: "http://localhost:3000/resultados",
+      description:
+        "Circuit execution on different machines enables the visualization of results through graphs to observe statistical data.",
+    },
+    {
+      title: "Execute Circuits on AWS and IBM Machines",
+      link: "http://localhost:3000/profile",
+      description:
+        "Our platform enables execution on various current machines from IBM and AWS, while also allowing local execution for faster, though less precise, results.",
+    },
+    {
+      title: "Edit Circuits in Real Time with Quirk Support",
+      link: "http://localhost:3000/mis-circuitos",
+      description:
+        "With the collaboration between QCraft and Quirk, we enable users to make changes to an already saved circuit.",
+    },
 ];
 
 export default contentData;

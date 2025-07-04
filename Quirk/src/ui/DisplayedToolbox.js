@@ -46,7 +46,7 @@ class DisplayedToolbox {
     standardAppearance = undefined
   ) {
     /** @type {!String} */
-    this.name = "Puertas";
+    this.name = "Toolbox";
     /** @type {!number} */
     this.top = labelsOnTop ? (top - 20) : (top + 90);
     /** @type {!Array<!{hint: !string, gates: !Array<undefined|!Gate>}>} */

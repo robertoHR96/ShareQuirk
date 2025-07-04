@@ -17,10 +17,15 @@ const ReceptorDatos = () => {
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState(null);
   const [csrfToken, setCsrfToken] = useState(null);
+  const [goToMisCircutios, setGoToMisCircutios] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const cadena = searchParams.get('id');
+    const goToMisCircutios = searchParams.get("goToMisCircutios");
+    if (goToMisCircutios === 'true') {
+      setGoToMisCircutios(true);
+    }
     setCadena(cadena);
   }, [location]);
 
@@ -82,6 +87,9 @@ const ReceptorDatos = () => {
       }, {
         headers: headers
       });
+      if( goToMisCircutios) {
+        window.location.href = `http://localhost:3000/mis-circuitos/`;
+      }
 
       const awsResponse = await axios.post('http://localhost:4246/code/aws', 
         { 

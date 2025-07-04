@@ -350,8 +350,20 @@ const MisCircuitos = () => {
           link_id: id,
         }
       );
-
       console.log("Respuesta:", response.data);
+        try {
+          if (user && user.email) {
+            setUserEmail(user.email);
+            const response = await axios.get(
+              `http://localhost:8000/obtener_url_y_nombre_por_email/?email=${userEmail}`
+            );
+            console.log("Respuesta del servidor:", response.data.circuitos);
+            setCircuitos(response.data.circuitos);
+          }
+        } catch (error) {
+          setCircuitos([]);
+          console.error("Error al obtener los circuitos:", error);
+        }
     } catch (error) {
       if (error.response) {
         console.error("Error del servidor:", error.response.data);
@@ -430,7 +442,7 @@ const MisCircuitos = () => {
     <>
       <div className="mis-circuitos-container">
         <div className="mis-circuitos-header">
-          <h2>Circuitos creados</h2>
+          <h2>My circuits</h2>
         </div>
         {translatedCircuito ? (
           <div>
@@ -639,7 +651,7 @@ const MisCircuitos = () => {
                           handleEditNombre(circuito.id, editedNombre)
                         }
                       >
-                        Guardar cambios
+                        Save changes
                       </button>
                     </>
                   ) : (
@@ -656,7 +668,7 @@ const MisCircuitos = () => {
                           className="mis-circuitos-blue-button"
                           onClick={() => seleccionarIdCompartir(circuito.id)}
                         >
-                          Compartir
+                          Share
                         </button>
                       </span>
                       <button
@@ -664,7 +676,7 @@ const MisCircuitos = () => {
                         className="mis-circuitos-blue-button"
                         onClick={() => handleEditClick(circuito)}
                       >
-                        Cambiar nombre
+                        Rename
                       </button>
                     </>
                   )}

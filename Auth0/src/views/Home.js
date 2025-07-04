@@ -9,7 +9,7 @@ const Home = () => (
   <Fragment>
     <Hero />
     <div className="centered-button">
-    <button onClick={() => window.location.href = "http://localhost:4444/quirk.html"}>¡Crear circuito!</button>
+    <button onClick={() => window.location.href = "http://localhost:4444/quirk.html"}>Create circuit</button>
     </div>
     <hr />
     <Content />

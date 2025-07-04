@@ -1,82 +1,44 @@
-# <a href="http://algassert.com/quirk">Quirk <img src="doc/favicon.ico" alt="Icon" title="Icon" /></a>
+# Editor de Circuitos Quirk Modificado
 
-[![Build Status](https://travis-ci.org/Strilanc/Quirk.svg?branch=master)](https://travis-ci.org/Strilanc/Quirk)
+Esta es la versión adaptada del editor de circuitos cuánticos **Quirk**, que forma parte del frontend de la plataforma QCRAFT. Ha sido modificada para integrarse con un backend de WebSockets y permitir la colaboración en tiempo real.
 
-Quirk is a toy quantum circuit simulator, intended to help people in learning about quantum computing.
+## Descripción Técnica
 
-If you want to quickly explore the behavior of a small quantum circuit, Quirk is the tool for you.
-There's no installing or configuring or scripting: just go to **[algassert.com/quirk](http://algassert.com/quirk)**, drag gates onto the circuit, and the output displays will update in real time.
+Este componente es una aplicación React que proporciona la interfaz visual para el diseño de circuitos. Originalmente una herramienta para un solo usuario, ha sido intervenida para añadir una capa de comunicación que sincroniza las acciones entre múltiples usuarios.
 
-(If you're still trying to understand what a quantum circuit *even is*, then I recommend the video series [Quantum Computing for the Determined](https://www.youtube.com/playlist?list=PL1826E60FD05B44E4).
-Quirk assumes you already know background facts like "each wire represents a qubit".)
+### Funcionalidades Clave
 
-**Defining features**:
+-   **Editor Visual:** Interfaz de arrastrar y soltar (drag-and-drop) para construir circuitos cuánticos.
+-   **Integración Colaborativa:** Se conecta al backend `quirkSpring` a través de WebSockets.
+-   **Sincronización de Acciones:**
+    -   Envía cada modificación (añadir, mover o eliminar puerta) al servidor WebSocket.
+    -   Recibe actualizaciones del servidor y las refleja en la interfaz para mantener la consistencia entre todos los clientes.
+    -   Gestiona la sincronización del historial (undo/redo) y el estado inicial de los cúbits.
+-   **Modo Offline:** Si la conexión con el servidor WebSocket falla, la lógica local se restaura temporalmente para no bloquear al usuario.
 
-- Runs in web browsers.
-- Drag-and-drop circuit editing.
-- Reacts, simulates, and animates in real time.
-- Inline state displays.
-- Bookmarkable / linkable circuits.
-- Up to 16 qubits.
+## Prerrequisitos
 
-**Notable limitations**:
+-   Node.js
+-   npm
 
-- Can't recohere measured qubits (because measurement is implemented as a hack based on the [deferred measurement principle](https://en.wikipedia.org/wiki/Deferred_Measurement_Principle)).
+## Instalación
 
-**Try it out**:
+Navega a este directorio desde la raíz del proyecto `ShareQuirk` y ejecuta:
 
-**[algassert.com/quirk](http://algassert.com/quirk)**
+```bash
+npm install
+```
 
-# Examples
+## Ejecución para Desarrollo
 
-**Basic usage demo**:
+Para iniciar el servidor de desarrollo de esta parte del proyecto, ejecuta:
 
-![Demo](/doc/README_Demo.gif)
+```bash
+npm run dev
+```
 
-**Grover search circuit** with chance and sample displays (showing that the chance of success increases):
+Este comando levantará el entorno necesario para probar y visualizar los circuitos en tiempo real, tal y como se describe en el manual del TFG.
 
-![Grover search](/doc/README_Grover.gif)
+## Contexto del Proyecto
 
-**Quantum teleportation circuit** with Bloch sphere displays (showing that the qubit at the top has ended up at the bottom):
-
-![Quantum teleportation](/doc/README_Teleportation.gif)
-
-# Building
-
-If you want to modify Quirk, this is how you get the code and turn your changes into working html/javascript.
-
-1. Have [git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/download/) installed.
-
-    `sudo add-apt-repository universe`
-    
-    `sudo apt-get update`
-    
-    `sudo apt-get install --yes git npm nodejs-legacy`
-
-2. Clone the repository.
-
-    `git clone https://github.com/Strilanc/Quirk.git`
-
-3. Install the dev dependencies.
-
-    `cd Quirk`
-    
-    `npm install`
-
-4. (*Optional*) Make your changes. Run the tests.
-
-    `npm run test-firefox`
-
-5. Build the output.
-
-    `npm run build`
-
-6. Confirm the output works by opening `out/quirk.html` with a web browser.
-
-    `firefox out/quirk.html`
-
-7. Copy `out/quirk.html` to wherever you want.
-
-# Disclaimer
-
-Quirk is not an official Google product.
+Este editor no está diseñado para funcionar de forma totalmente aislada. Es un componente clave del frontend `ShareQuirk` y depende del backend `quirkSpring` para su funcionalidad colaborativa. La aplicación principal de QCRAFT (en el directorio raíz) es la que normalmente carga esta interfaz.
